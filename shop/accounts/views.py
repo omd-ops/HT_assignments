@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
 
-# 1️⃣ Admin Creation API
+# Admin Creation API
 class CreateAdminView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
@@ -14,7 +14,7 @@ class CreateAdminView(generics.CreateAPIView):
         serializer.save(is_staff=True, is_superuser=True)
 
 
-# 2️⃣ Customer Signup API
+# Customer Signup API
 class CustomerSignupView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
@@ -22,7 +22,7 @@ class CustomerSignupView(generics.CreateAPIView):
         serializer.save(is_staff=False, is_superuser=False)
 
 
-# 3️⃣ Login API
+# Login API
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 

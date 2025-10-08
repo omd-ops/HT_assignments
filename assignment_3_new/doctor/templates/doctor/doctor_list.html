@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Doctors</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; }
+    form { margin-bottom: 1em; }
+    .pagination a { margin: 0 4px; text-decoration: none; }
+    .active-page { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Doctor Directory</h1>
+
+  <!-- Search & Filter -->
+  <form method="get" action=".">
+    <input type="text" name="q" placeholder="Search doctor name..." value="{{ q }}">
+    <select name="department">
+      <option value="">All departments</option>
+      {% for d in departments %}
+        <option value="{{ d }}" {% if d == department %}selected{% endif %}>{{ d|title }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Search / Filter</button>
+  </form>
+
+  <!-- List of doctors -->
+  <ul>
+    {% for doctor in page_obj %}
+      <li>
+        <strong>{{ doctor.name }}</strong> — {{ doctor.get_department_display }} ({{ doctor.experience_years }} yrs)
+      </li>
+    {% empty %}
+      <li>No doctors found.</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Pagination controls -->
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    <span> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
+
+    {% if page_obj.has_next %}
+      <a href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+  </div>
+
+  <!-- Direct page numbers -->
+  <div>
+    {% for num in page_obj.paginator.page_range %}
+      {% if num == page_obj.number %}
+        <span class="active-page">{{ num }}</span>
+      {% else %}
+        <a href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ num }}">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</body>
+</html>

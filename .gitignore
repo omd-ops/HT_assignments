@@ -1,0 +1,42 @@
+# Python
+# Virtual environment directory
+dj_env/
+*.pyc
+__pycache__/
+*.$py.class
+
+# IDE and Editor files (common examples)
+.idea/
+*.swp
+*~
+.vscode/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Django-specific
+# Local settings that may contain sensitive data
+# Assuming your local settings file is named 'settings_local.py' or similar
+# Adjust this if your local settings file has a different name
+*local.py
+# If you keep a secrets file, ignore it
+secrets.json
+
+# Database and media files
+# SQLite database file
+*.sqlite3
+db.sqlite3
+# Uploaded media files
+/media/
+
+# Static files (if you collect them to a specific directory in production)
+/static/
+
+# Environment variables file
+dj_env
+
+#Untracked files
+/myproject/
+/shop/

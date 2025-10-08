@@ -1,13 +1,19 @@
-from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Product
-from .serializers import ProductSerializer
-from rest_framework.decorators import action
-from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .models import Product, Order
+from .serializers import ProductSerializer, OrderSerializer
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().order_by("-created_at")
     serializer_class = ProductSerializer
-    filterset_fields = ["is_active", "price", "stock"]
-    search_fields = ["name", "description"]
-    ordering_fields = ["price","created_at"]
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all().order_by("-created_at")
+    serializer_class = OrderSerializer
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user if self.request.user.is_authenticated else None)
